@@ -10,6 +10,10 @@ var current;
 var img1 = [];
 var img2 = [];
 var target = [];
+var factor;
+var t;
+var state = true;
+var c = 60;
 target[1] = [{x: 300, y: 136, width: 35, height: 25}, {x: 140, y: 310, width: 80, height: 35}, {x: 60, y: 355, width: 50, height: 35}];
 target[2] = [{x: 345, y: 20, width: 55, height: 45}, {x: 155, y: 195, width: 30, height: 35}, {x: 320, y: 290, width: 20, height: 25}];
 target[3] = [{x: 540, y: 35, width: 35, height: 35}, {x: 975, y: 200, width: 25, height: 120}, {x: 755, y: 450, width: 95, height: 60}];
@@ -33,27 +37,54 @@ for (var i = 1; i <= 30; i++) {
 	img2[i].src = img2.src = "image/new"+ i + ".jpg";
 }
 
+function drawCanvas(index, width, height) {
+	c1.width = width;
+	c1.height = height;
+	cxt1.drawImage(img1[index], 0, 0, width, height);
+	c2.width = width;
+	c2.height = height;
+	cxt2.drawImage(img2[index], 0, 0, width, height);
+}
+
 function init(index) {
 	sum = 5;
 	success = 0;
 	for (var i = 0; i < 3; i++) {
 		flag[i] = false;
 	}
+	if (img1[index].width > img1[index].height) {
+		var newWidth = (window.screen.availWidth - 40) / 2;
+		if (img1[index].width > newWidth) {
+			factor = newWidth / img1[index].width;
+			drawCanvas(index, newWidth, Math.floor(img1[index].height * factor));
+		} else {
+			factor = 1;
+			drawCanvas(index, img1[index].width, img1[index].height);
+		}
+	} else {
+		var newHeight = window.screen.availHeight - 130;
+		if (img1[index].height > newHeight) {
+			factor = newHeight / img1[index].height;
+			drawCanvas(index, Math.floor(img1[index].width * factor), newHeight);
+		} else {
+			factor = 1;
+			drawCanvas(index, img1[index].width, img1[index].height);
+		}
+	}
 	current = index;
-	c1.width = img1[index].width;
-	c1.height = img1[index].height;
-	cxt1.drawImage(img1[index], 0, 0);
-	c2.width = img2[index].width;
-	c2.height = img2[index].height;
-	cxt2.drawImage(img2[index], 0, 0);
 }
 
 function checkOnClick(x, y) {
-	if (success == 3 || sum == 0) {
+	if (!state) {
 		return;
 	}
 	for (var i = 0; i < 3; i++) {
-		obj = target[current][i];
+		var obj = {
+			x: target[current][i].x * factor,
+			y: target[current][i].y * factor,
+			width: target[current][i].width * factor,
+			height: target[current][i].height * factor
+		};
 		if (x > obj.x && x < obj.x + obj.width && y > obj.y && y < obj.y + obj.height) {
 			cxt1.strokeStyle = "#ff0000";
 			cxt2.strokeStyle = "#ff0000";
@@ -68,6 +99,7 @@ function checkOnClick(x, y) {
 			flag[i] = true;
 			if (success == 3) {
 				alert("成功！");
+				state = false;
 			}
 			break;
 		}
@@ -76,6 +108,7 @@ function checkOnClick(x, y) {
 	count.innerHTML = sum;
 	if (sum == 0 && success < 3) {
 		alert("失敗！");
+		state = false;
 	}
 }
 
@@ -91,5 +124,19 @@ c2.onclick = function(e) {
 	checkOnClick(x, y);
 }
 
+function timedCount() {
+	if (!state) {
+		return;
+	}
+	c--;
+	document.getElementById("timer").innerHTML = c
+	if (c == 0) {
+		alert("遊戲結束！");
+		state = false;
+		return;
+	}
+	t = setTimeout("timedCount()", 1000);
+}
 
-init(Math.floor(Math.random() * 30));
+init(Math.floor(Math.random() * 20));
+t = setTimeout("timedCount()", 1000);
