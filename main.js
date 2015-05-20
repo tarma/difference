@@ -122,6 +122,9 @@ function init(index) {
 			}
 		}
 		c = 60;
+		if (t) {
+			clearTimeout(t);
+		}
 		t = setTimeout("timedCount()", 1000);
 	}
 	img2[index].onload = function() {
