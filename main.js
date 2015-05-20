@@ -16,6 +16,7 @@ var state = true;
 var c = 60;
 var title = [];
 var next = true;
+var load = [];
 title[1] = "澳門大賽車——賽車女郎";
 title[2] = "鉅記餅家";
 title[3] = "澳門聖誕夜";
@@ -73,13 +74,16 @@ target[28] = [{x: 410, y: 95, width: 40, height: 20}, {x: 180, y: 70, width: 35,
 target[29] = [{x: 620, y: 80, width: 95, height: 45}, {x: 425, y: 235, width: 40, height: 40}, {x: 310, y: 445, width: 35, height: 25}];
 target[30] = [{x: 240, y: 150, width: 95, height: 55}, {x: 520, y: 350, width: 15, height: 25}, {x: 580, y: 165, width: 40, height: 40}];
 
-function drawCanvas(index, width, height) {
+function drawCanvas1(img, width, height) {
 	c1.width = width;
 	c1.height = height;
-	cxt1.drawImage(img1[index], 0, 0, width, height);
+	cxt1.drawImage(img, 0, 0, width, height);
+}
+
+function drawCanvas2(img, width, height) {
 	c2.width = width;
 	c2.height = height;
-	cxt2.drawImage(img2[index], 0, 0, width, height);
+	cxt2.drawImage(img, 0, 0, width, height);
 }
 
 function init(index) {
@@ -97,24 +101,51 @@ function init(index) {
 		img2[index] = new Image();
 		img2[index].src = "image/new"+ index + ".jpg";
 	}
-	if (img1[index].width > img1[index].height) {
-		var newWidth = (window.innerWidth - 40) / 2;
-		if (img1[index].width > newWidth) {
-			factor = newWidth / img1[index].width;
-			drawCanvas(index, newWidth, Math.floor(img1[index].height * factor));
+	img1[index].onload = function() {
+		if (this.width > this.height) {
+			var newWidth = (window.innerWidth - 40) / 2;
+			if (this.width > newWidth) {
+				factor = newWidth / this.width;
+				drawCanvas1(this, newWidth, Math.floor(this.height * factor));
+			} else {
+				factor = 1;
+				drawCanvas1(this, this.width, this.height);
+			}
 		} else {
-			factor = 1;
-			drawCanvas(index, img1[index].width, img1[index].height);
+			var newHeight = window.innerHeight;
+			if (this.height > newHeight) {
+				factor = newHeight / this.height;
+				drawCanvas1(this, Math.floor(this.width * factor), newHeight);
+			} else {
+				factor = 1;
+				drawCanvas1(this, this.width, this.height);
+			}
 		}
-	} else {
-		var newHeight = window.innerHeight;
-		if (img1[index].height > newHeight) {
-			factor = newHeight / img1[index].height;
-			drawCanvas(index, Math.floor(img1[index].width * factor), newHeight);
+		c = 60;
+		t = setTimeout("timedCount()", 1000);
+	}
+	img2[index].onload = function() {
+		if (this.width > this.height) {
+			var newWidth = (window.innerWidth - 40) / 2;
+			if (this.width > newWidth) {
+				factor = newWidth / this.width;
+				drawCanvas2(this, newWidth, Math.floor(this.height * factor));
+			} else {
+				factor = 1;
+				drawCanvas2(this, this.width, this.height);
+			}
 		} else {
-			factor = 1;
-			drawCanvas(index, img1[index].width, img1[index].height);
+			var newHeight = window.innerHeight;
+			if (this.height > newHeight) {
+				factor = newHeight / this.height;
+				drawCanvas2(this, Math.floor(this.width * factor), newHeight);
+			} else {
+				factor = 1;
+				drawCanvas2(this, this.width, this.height);
+			}
 		}
+		c = 60;
+		t = setTimeout("timedCount()", 1000);
 	}
 	document.getElementById("header").innerHTML = title[index];
 	current = index;
@@ -199,4 +230,3 @@ while (num == 9 || num == 10 || num == 0) {
 	num = Math.round(Math.random() * 30);
 }
 init(num);
-t = setTimeout("timedCount()", 1000);
