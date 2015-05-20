@@ -145,7 +145,6 @@ function init(index) {
 			}
 		}
 		c = 60;
-		t = setTimeout("timedCount()", 1000);
 	}
 	document.getElementById("header").innerHTML = title[index];
 	current = index;
