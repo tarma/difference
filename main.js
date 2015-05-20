@@ -73,16 +73,6 @@ target[28] = [{x: 410, y: 95, width: 40, height: 20}, {x: 180, y: 70, width: 35,
 target[29] = [{x: 620, y: 80, width: 95, height: 45}, {x: 425, y: 235, width: 40, height: 40}, {x: 310, y: 445, width: 35, height: 25}];
 target[30] = [{x: 240, y: 150, width: 95, height: 55}, {x: 520, y: 350, width: 15, height: 25}, {x: 580, y: 165, width: 40, height: 40}];
 
-for (var i = 1; i <= 30; i++) {
-	if (i == 9 || i == 10) {
-		continue;
-	}
-	img1[i] = new Image();
-	img1[i].src = img1.src = "image/" + i + ".jpg";
-	img2[i] = new Image();
-	img2[i].src = img2.src = "image/new"+ i + ".jpg";
-}
-
 function drawCanvas(index, width, height) {
 	c1.width = width;
 	c1.height = height;
@@ -98,6 +88,14 @@ function init(index) {
 	success = 0;
 	for (var i = 0; i < 3; i++) {
 		flag[i] = false;
+	}
+	if (!img1[index]) {
+		img1[index] = new Image();
+		img1[index].src = "image/" + index + ".jpg";
+	}
+	if (!img2[index]) {
+		img2[index] = new Image();
+		img2[index].src = "image/new"+ index + ".jpg";
 	}
 	if (img1[index].width > img1[index].height) {
 		var newWidth = (window.innerWidth - 40) / 2;
