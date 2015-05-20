@@ -74,6 +74,9 @@ target[29] = [{x: 620, y: 80, width: 95, height: 45}, {x: 425, y: 235, width: 40
 target[30] = [{x: 240, y: 150, width: 95, height: 55}, {x: 520, y: 350, width: 15, height: 25}, {x: 580, y: 165, width: 40, height: 40}];
 
 for (var i = 1; i <= 30; i++) {
+	if (i == 9 || i == 10) {
+		continue;
+	}
 	img1[i] = new Image();
 	img1[i].src = img1.src = "image/" + i + ".jpg";
 	img2[i] = new Image();
