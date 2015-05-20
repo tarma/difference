@@ -97,7 +97,7 @@ function init(index) {
 		flag[i] = false;
 	}
 	if (img1[index].width > img1[index].height) {
-		var newWidth = (document.documentElement.clientWidth - 40) / 2;
+		var newWidth = (window.innerWidth - 40) / 2;
 		if (img1[index].width > newWidth) {
 			factor = newWidth / img1[index].width;
 			drawCanvas(index, newWidth, Math.floor(img1[index].height * factor));
@@ -106,7 +106,7 @@ function init(index) {
 			drawCanvas(index, img1[index].width, img1[index].height);
 		}
 	} else {
-		var newHeight = document.documentElement.clientHeight;
+		var newHeight = window.innerHeight;
 		if (img1[index].height > newHeight) {
 			factor = newHeight / img1[index].height;
 			drawCanvas(index, Math.floor(img1[index].width * factor), newHeight);
