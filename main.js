@@ -15,6 +15,7 @@ var t;
 var state = true;
 var c = 60;
 var title = [];
+var next = true;
 title[1] = "澳門大賽車——賽車女郎";
 title[2] = "鉅記餅家";
 title[3] = "澳門聖誕夜";
@@ -90,13 +91,13 @@ function drawCanvas(index, width, height) {
 
 function init(index) {
 	sum = 5;
-	document.getElementById("counter").innerHTML = sum;
+	count.innerHTML = sum;
 	success = 0;
 	for (var i = 0; i < 3; i++) {
 		flag[i] = false;
 	}
 	if (img1[index].width > img1[index].height) {
-		var newWidth = (window.screen.availWidth - 40) / 2;
+		var newWidth = (document.documentElement.clientWidth - 40) / 2;
 		if (img1[index].width > newWidth) {
 			factor = newWidth / img1[index].width;
 			drawCanvas(index, newWidth, Math.floor(img1[index].height * factor));
@@ -105,7 +106,7 @@ function init(index) {
 			drawCanvas(index, img1[index].width, img1[index].height);
 		}
 	} else {
-		var newHeight = window.screen.availHeight - 130;
+		var newHeight = document.documentElement.clientHeight;
 		if (img1[index].height > newHeight) {
 			factor = newHeight / img1[index].height;
 			drawCanvas(index, Math.floor(img1[index].width * factor), newHeight);
@@ -116,6 +117,7 @@ function init(index) {
 	}
 	document.getElementById("header").innerHTML = title[index];
 	current = index;
+	state = true;
 }
 
 function checkOnClick(x, y) {
@@ -144,6 +146,15 @@ function checkOnClick(x, y) {
 			if (success == 3) {
 				alert("成功！");
 				state = false;
+				if (next) {
+					next = false;
+					var num = Math.round(Math.random() * 30);
+					while (num == 9 || num == 10 || num == 0) {
+						num = Math.round(Math.random() * 30);
+					}
+					init(num);
+					return;
+				}
 			}
 			break;
 		}
@@ -182,9 +193,9 @@ function timedCount() {
 	t = setTimeout("timedCount()", 1000);
 }
 
-var num = Math.floor(Math.random() * 30);
-while (num == 9 || num == 10) {
-	num = Math.floor(Math.random() * 30);
+var num = Math.round(Math.random() * 30);
+while (num == 9 || num == 10 || num == 0) {
+	num = Math.round(Math.random() * 30);
 }
 init(num);
 t = setTimeout("timedCount()", 1000);
