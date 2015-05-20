@@ -122,10 +122,7 @@ function init(index) {
 			}
 		}
 		c = 60;
-		if (t) {
-			clearTimeout(t);
-		}
-		t = setTimeout("timedCount()", 1000);
+		document.getElementById("timer").innerHTML = c;
 	}
 	img2[index].onload = function() {
 		if (this.width > this.height) {
@@ -148,6 +145,7 @@ function init(index) {
 			}
 		}
 		c = 60;
+		document.getElementById("timer").innerHTML = c;
 	}
 	document.getElementById("header").innerHTML = title[index];
 	current = index;
@@ -178,6 +176,7 @@ function checkOnClick(x, y) {
 			success++;
 			flag[i] = true;
 			if (success == 3) {
+
 				alert("成功！");
 				state = false;
 				if (next) {
@@ -232,3 +231,4 @@ while (num == 9 || num == 10 || num == 0) {
 	num = Math.round(Math.random() * 30);
 }
 init(num);
+t = setTimeout("timedCount()", 1000);
