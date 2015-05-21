@@ -86,6 +86,54 @@ function drawCanvas2(img, width, height) {
 	cxt2.drawImage(img, 0, 0, width, height);
 }
 
+function drawImg1() {
+	if (this.width > this.height) {
+		var newWidth = (window.innerWidth - 60) / 2;
+		if (this.width > newWidth) {
+			factor = newWidth / this.width;
+			drawCanvas1(this, newWidth, Math.floor(this.height * factor));
+		} else {
+			factor = 1;
+			drawCanvas1(this, this.width, this.height);
+		}
+	} else {
+		var newHeight = window.innerHeight;
+		if (this.height > newHeight) {
+			factor = newHeight / this.height;
+			drawCanvas1(this, Math.floor(this.width * factor), newHeight);
+		} else {
+			factor = 1;
+			drawCanvas1(this, this.width, this.height);
+		}
+	}
+	c = 60;
+	document.getElementById("timer").innerHTML = c;
+}
+
+function drawImg2() {
+	if (this.width > this.height) {
+		var newWidth = (window.innerWidth - 60) / 2;
+		if (this.width > newWidth) {
+			factor = newWidth / this.width;
+			drawCanvas2(this, newWidth, Math.floor(this.height * factor));
+		} else {
+			factor = 1;
+			drawCanvas2(this, this.width, this.height);
+		}
+	} else {
+		var newHeight = window.innerHeight;
+		if (this.height > newHeight) {
+			factor = newHeight / this.height;
+			drawCanvas2(this, Math.floor(this.width * factor), newHeight);
+		} else {
+			factor = 1;
+			drawCanvas2(this, this.width, this.height);
+		}
+	}
+	c = 60;
+	document.getElementById("timer").innerHTML = c;
+}
+
 function init(index) {
 	sum = 5;
 	count.innerHTML = sum;
@@ -96,56 +144,16 @@ function init(index) {
 	if (!img1[index]) {
 		img1[index] = new Image();
 		img1[index].src = "image/" + index + ".jpg";
+		img1[index].onload = drawImg1;
+	} else {
+		img1[index].onload();
 	}
 	if (!img2[index]) {
 		img2[index] = new Image();
 		img2[index].src = "image/new"+ index + ".jpg";
-	}
-	img1[index].onload = function() {
-		if (this.width > this.height) {
-			var newWidth = (window.innerWidth - 40) / 2;
-			if (this.width > newWidth) {
-				factor = newWidth / this.width;
-				drawCanvas1(this, newWidth, Math.floor(this.height * factor));
-			} else {
-				factor = 1;
-				drawCanvas1(this, this.width, this.height);
-			}
-		} else {
-			var newHeight = window.innerHeight;
-			if (this.height > newHeight) {
-				factor = newHeight / this.height;
-				drawCanvas1(this, Math.floor(this.width * factor), newHeight);
-			} else {
-				factor = 1;
-				drawCanvas1(this, this.width, this.height);
-			}
-		}
-		c = 60;
-		document.getElementById("timer").innerHTML = c;
-	}
-	img2[index].onload = function() {
-		if (this.width > this.height) {
-			var newWidth = (window.innerWidth - 40) / 2;
-			if (this.width > newWidth) {
-				factor = newWidth / this.width;
-				drawCanvas2(this, newWidth, Math.floor(this.height * factor));
-			} else {
-				factor = 1;
-				drawCanvas2(this, this.width, this.height);
-			}
-		} else {
-			var newHeight = window.innerHeight;
-			if (this.height > newHeight) {
-				factor = newHeight / this.height;
-				drawCanvas2(this, Math.floor(this.width * factor), newHeight);
-			} else {
-				factor = 1;
-				drawCanvas2(this, this.width, this.height);
-			}
-		}
-		c = 60;
-		document.getElementById("timer").innerHTML = c;
+		img2[index].onload = drawImg2;
+	} else {
+		img2[index].onload();
 	}
 	document.getElementById("header").innerHTML = title[index];
 	current = index;
