@@ -13,10 +13,11 @@ var target = [];
 var factor;
 var t;
 var state = true;
-var c = 60;
+var c = 75;
 var title = [];
 var next = true;
-var load = [];
+var maxWidth = (window.innerWidth - 60) / 2;
+var maxHeight = window.innerHeight - document.getElementById("header").clientHeight - document.getElementById("info").clientHeight - 100;
 title[1] = "澳門大賽車——賽車女郎";
 title[2] = "鉅記餅家";
 title[3] = "澳門聖誕夜";
@@ -32,7 +33,7 @@ title[14] = "澳門美食節代金券";
 title[15] = "澳門大賽車——雷電風馳";
 title[16] = "澳門手信博物館";
 title[17] = "澳門賽狗之整裝待發";
-title[18] = "澳門濠江中學"
+title[18] = "澳門濠江中學";
 title[19] = "澳門亞運會紀念郵票";
 title[20] = "澳門大三巴";
 title[21] = "澳門傳統木制路標";
@@ -87,50 +88,46 @@ function drawCanvas2(img, width, height) {
 }
 
 function drawImg1() {
-	if (this.width > this.height) {
-		var newWidth = (window.innerWidth - 60) / 2;
-		if (this.width > newWidth) {
-			factor = newWidth / this.width;
-			drawCanvas1(this, newWidth, Math.floor(this.height * factor));
+	if (this.height / maxHeight < this.width / maxWidth) {
+		if (this.width > maxWidth) {
+			factor = maxWidth / this.width;
+			drawCanvas1(this, maxWidth, Math.floor(this.height * factor));
 		} else {
 			factor = 1;
 			drawCanvas1(this, this.width, this.height);
 		}
 	} else {
-		var newHeight = window.innerHeight;
-		if (this.height > newHeight) {
-			factor = newHeight / this.height;
-			drawCanvas1(this, Math.floor(this.width * factor), newHeight);
+		if (this.height > maxHeight) {
+			factor = maxHeight / this.height;
+			drawCanvas1(this, Math.floor(this.width * factor), maxHeight);
 		} else {
 			factor = 1;
 			drawCanvas1(this, this.width, this.height);
 		}
 	}
-	c = 60;
+	c = 75;
 	document.getElementById("timer").innerHTML = c;
 }
 
 function drawImg2() {
-	if (this.width > this.height) {
-		var newWidth = (window.innerWidth - 60) / 2;
-		if (this.width > newWidth) {
-			factor = newWidth / this.width;
-			drawCanvas2(this, newWidth, Math.floor(this.height * factor));
+	if (this.height / maxHeight < this.width / maxWidth) {
+		if (this.width > maxWidth) {
+			factor = maxWidth / this.width;
+			drawCanvas2(this, maxWidth, Math.floor(this.height * factor));
 		} else {
 			factor = 1;
 			drawCanvas2(this, this.width, this.height);
 		}
 	} else {
-		var newHeight = window.innerHeight;
-		if (this.height > newHeight) {
-			factor = newHeight / this.height;
-			drawCanvas2(this, Math.floor(this.width * factor), newHeight);
+		if (this.height > maxHeight) {
+			factor = maxHeight / this.height;
+			drawCanvas2(this, Math.floor(this.width * factor), maxHeight);
 		} else {
 			factor = 1;
 			drawCanvas2(this, this.width, this.height);
 		}
 	}
-	c = 60;
+	c = 75;
 	document.getElementById("timer").innerHTML = c;
 }
 
@@ -212,13 +209,13 @@ c1.onclick = function(e) {
 	var x = e.pageX - c1.offsetLeft;
 	var y = e.pageY - c1.offsetTop;
 	checkOnClick(x, y);
-}
+};
 
 c2.onclick = function(e) {
 	var x = e.pageX - c2.offsetLeft;
 	var y = e.pageY - c2.offsetTop;
 	checkOnClick(x, y);
-}
+};
 
 function timedCount() {
 	if (!state) {
